@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import Link from "next/link";
+import Blog from "@/components/Blog";
 
 export default function HomePage() {
   const { t } = useLanguage();
@@ -90,38 +91,7 @@ export default function HomePage() {
         </div>
 
         {/* Blog Section */}
-        <div className="container mx-auto p-6 mt-12">
-          <h2 className="text-3xl font-bold text-center">{t("blog_section", "home")}</h2>
-          
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Blog 1 */}
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="text-xl font-semibold">{t("blog1_title", "home")}</h3>
-              <p className="text-gray-600 mt-2">{t("blog1_desc", "home")}</p>
-              <button className="mt-4 text-blue-600 hover:underline">
-                Read More →
-              </button>
-            </div>
-
-            {/* Blog 2 */}
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="text-xl font-semibold">{t("blog2_title", "home")}</h3>
-              <p className="text-gray-600 mt-2">{t("blog2_desc", "home")}</p>
-              <button className="mt-4 text-blue-600 hover:underline">
-                Read More →
-              </button>
-            </div>
-
-            {/* Blog 3 */}
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="text-xl font-semibold">{t("blog3_title", "home")}</h3>
-              <p className="text-gray-600 mt-2">{t("blog3_desc", "home")}</p>
-              <button className="mt-4 text-blue-600 hover:underline">
-                Read More →
-              </button>
-            </div>
-          </div>
-          </div>
+        <Blog />
 
       </div>
     </div>
