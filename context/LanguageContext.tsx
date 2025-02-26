@@ -16,12 +16,15 @@ import zhProduct from "@/locales/zh/product.json";
 import enBreadcrumb from "@/locales/en/breadcrumb.json";
 import thBreadcrumb from "@/locales/th/breadcrumb.json";
 import zhBreadcrumb from "@/locales/zh/breadcrumb.json";
+import enBlog from "@/locales/en/blog.json";
+import thBlog from "@/locales/th/blog.json";
+import zhBlog from "@/locales/zh/blog.json";
 
 
 const languages: any = {
-  en: { navbar: enNavbar, home: enHome, product: enProduct, footer: enFooter,breadcrumb: enBreadcrumb },
-  th: { navbar: thNavbar, home: thHome, product: thProduct, footer: thFooter,breadcrumb: thBreadcrumb },
-  zh: { navbar: zhNavbar, home: zhHome, product: zhProduct, footer: zhFooter,breadcrumb: zhBreadcrumb},
+  en: { navbar: enNavbar, home: enHome, product: enProduct, footer: enFooter,breadcrumb: enBreadcrumb, blog: enBlog },
+  th: { navbar: thNavbar, home: thHome, product: thProduct, footer: thFooter,breadcrumb: thBreadcrumb, blog: thBlog },
+  zh: { navbar: zhNavbar, home: zhHome, product: zhProduct, footer: zhFooter,breadcrumb: zhBreadcrumb, blog: zhBlog },
 };
 
 type LanguageContextType = {
