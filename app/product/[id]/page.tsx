@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-
+import Breadcrumb from "@/components/Breadcrumb";
 const products = [
   {
     id: 1,
@@ -91,7 +91,8 @@ export default function ProductDetailPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <Breadcrumb /> 
+      <div className="pt-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <img src={product.image} alt={product.name} className="w-full h-64 object-cover" />
         <div className="p-6">
           <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
