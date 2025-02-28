@@ -1,124 +1,132 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation"; // ✅ ตรวจสอบ path ปัจจุบัน
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { Globe, Menu, X } from "lucide-react"; 
+import { Search, User, ShoppingBag, Globe, ChevronDown, Menu, X } from "lucide-react";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // ✅ ควบคุมเมนู
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { locale, setLocale, t } = useLanguage();
-  const pathname = usePathname(); // ✅ ตรวจสอบหน้าเว็บปัจจุบัน
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 left-0 w-screen z-50">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        {/* โลโก้ */}
-        <Link href="/" className="flex items-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-          <span className="text-blue-600 dark:text-white">Flowbite</span>
-        </Link>
-
-        {/* ปุ่มเปิด/ปิดเมนูบนมือถือ */}
-        <button 
-          className="md:hidden text-gray-500 dark:text-gray-400 focus:outline-none" 
-          onClick={() => setIsOpen(!isOpen)}
+    <nav className="bg-white shadow-md fixed w-full top-0 left-0 z-50">
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        
+        {/* ✅ Hamburger Menu (เฉพาะ Mobile) */}
+        <button
+          className="md:hidden w-6 h-6 text-gray-800 hover:text-gray-500 transition"
+          onClick={() => setMenuOpen(true)}
         >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          <Menu />
         </button>
 
-        {/* ✅ เมนูหลัก */}
-        <div className={`w-full md:w-auto md:flex ${isOpen ? "block" : "hidden"} md:block`}>
-          <ul className="flex flex-col md:flex-row md:space-x-4 mt-4 md:mt-0 bg-white md:bg-transparent border md:border-0 rounded-lg shadow-md md:shadow-none p-4 md:p-0">
-            {/** ✅ ใช้ min-w-[120px] และ border-transparent เพื่อป้องกันขนาดเปลี่ยน */}
-            <li className="min-w-[120px] flex justify-center">
-              <Link 
-                href="/" 
-                className={`block px-6 py-2 text-center font-semibold border-2 rounded-lg transition-all duration-200 ${
-                  pathname === "/" ? "bg-blue-500 text-white border-blue-500" : "text-gray-900 dark:text-white hover:bg-gray-100 md:hover:bg-transparent border-transparent"
-                }`} 
-                onClick={() => setIsOpen(false)}
-              >
-                {t("home", "navbar")}
-              </Link>
-            </li>
-            <li className="min-w-[120px] flex justify-center">
-              <Link 
-                href="/about" 
-                className={`block px-6 py-2 text-center font-semibold border-2 rounded-lg transition-all duration-200 ${
-                  pathname === "/about" ? "bg-blue-500 text-white border-blue-500" : "text-gray-900 dark:text-white hover:bg-gray-100 md:hover:bg-transparent border-transparent"
-                }`} 
-                onClick={() => setIsOpen(false)}
-              >
-                {t("about", "navbar")}
-              </Link>
-            </li>
-            <li className="min-w-[120px] flex justify-center">
-              <Link 
-                href="/product" 
-                className={`block px-6 py-2 text-center font-semibold border-2 rounded-lg transition-all duration-200 ${
-                  pathname === "/product" ? "bg-blue-500 text-white border-blue-500" : "text-gray-900 dark:text-white hover:bg-gray-100 md:hover:bg-transparent border-transparent"
-                }`} 
-                onClick={() => setIsOpen(false)}
-              >
-                {t("product", "navbar")}
-              </Link>
-            </li>
+        {/* ✅ Logo */}
+        <Link href="/" className="text-2xl font-bold tracking-wide">
+          edge.
+        </Link>
 
-            {/* ✅ ปุ่มเปลี่ยนภาษา */}
-            <li className="relative">
-              <button 
-                className="flex items-center text-gray-900 dark:text-white hover:bg-gray-100 md:hover:bg-transparent px-4 py-2 rounded-lg" 
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
-                <Globe className="w-5 h-5 mr-2" />
-                {locale.toUpperCase()}
-              </button>
+        {/* ✅ เมนูหลัก (ซ่อนใน Mobile) */}
+        <ul className="hidden md:flex space-x-8 text-gray-800 font-medium">
+          <li><Link href="/product" className="hover:text-gray-500 transition">{t("product", "navbar")}</Link></li>
+          <li><Link href="/about" className="hover:text-gray-500 transition">{t("about", "navbar")}</Link></li>
+          <li><Link href="/contacts" className="hover:text-gray-500 transition">{t("contact", "navbar")}</Link></li>
+        </ul>
 
-              {/* ✅ Dropdown ภาษา */}
-              {dropdownOpen && (
-                <ul className="absolute left-0 mt-2 w-32 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg shadow-lg z-50">
-                  <li>
-                    <button 
-                      className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center"
-                      onClick={() => { 
-                        setLocale("en"); 
-                        setDropdownOpen(false); 
-                        setIsOpen(false); 
-                      }}
-                    >
-                      🇺🇸 English
-                    </button>
-                  </li>
-                  <li>
-                    <button 
-                      className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center"
-                      onClick={() => { 
-                        setLocale("th"); 
-                        setDropdownOpen(false); 
-                        setIsOpen(false); 
-                      }}
-                    >
-                      🇹🇭 ไทย
-                    </button>
-                  </li>
-                  <li>
-                    <button 
-                      className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center"
-                      onClick={() => { 
-                        setLocale("zh"); 
-                        setDropdownOpen(false); 
-                        setIsOpen(false); 
-                      }}
-                    >
-                      🇨🇳 中文
-                    </button>
-                  </li>
-                </ul>
-              )}
-            </li>
-          </ul>
+        {/* ✅ ไอคอน: Search, User, ShoppingBag + Language Selector */}
+        <div className="flex items-center space-x-6 relative">
+          {/* 🔍 ปุ่มค้นหา + Input Search */}
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Search..."
+              className={`absolute right-full w-0 p-2 border rounded-lg text-gray-800 transition-all duration-300 bg-white shadow-md
+                ${searchOpen ? "w-64 opacity-100 scale-100 px-4 py-2" : "opacity-0 scale-95 pointer-events-none"}`}
+            />
+            <button
+              className="w-6 h-6 text-gray-800 hover:text-gray-500 transition"
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
+              <Search />
+            </button>
+          </div>
+
+          {/* 👤 ปุ่ม User */}
+          <button className="w-6 h-6 text-gray-800 hover:text-gray-500 transition">
+            <User />
+          </button>
+
+          {/* 🛒 ปุ่ม Shopping Bag */}
+          <button className="w-6 h-6 text-gray-800 hover:text-gray-500 transition">
+            <ShoppingBag />
+          </button>
+
+          {/* 🌐 ปุ่มเปลี่ยนภาษา */}
+          <div className="relative">
+            <button
+              className="flex items-center space-x-1 hover:text-gray-500 transition"
+              onClick={() => setLangMenuOpen(!langMenuOpen)}
+            >
+              <Globe className="w-5 h-5" />
+              <span>{locale.toUpperCase()}</span>
+              <ChevronDown className="w-4 h-4" />
+            </button>
+
+            {/* ✅ Dropdown เมนูเลือกภาษา */}
+            {langMenuOpen && (
+              <ul className="absolute right-0 mt-2 w-24 bg-white text-gray-800 rounded-lg shadow-lg border">
+                <li>
+                  <button 
+                    className="w-full text-left px-4 py-2 hover:bg-gray-200 flex items-center"
+                    onClick={() => { setLocale("en"); setLangMenuOpen(false); }}
+                  >
+                    🇺🇸 English
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    className="w-full text-left px-4 py-2 hover:bg-gray-200 flex items-center"
+                    onClick={() => { setLocale("th"); setLangMenuOpen(false); }}
+                  >
+                    🇹🇭 ไทย
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    className="w-full text-left px-4 py-2 hover:bg-gray-200 flex items-center"
+                    onClick={() => { setLocale("zh"); setLangMenuOpen(false); }}
+                  >
+                    🇨🇳 中文
+                  </button>
+                </li>
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ✅ เมนูสำหรับ Mobile (Slide-in จากซ้าย) */}
+      <div
+        className={`fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <button className="absolute top-6 right-6 text-gray-800 hover:text-gray-500" onClick={() => setMenuOpen(false)}>
+          <X className="w-8 h-8" />
+        </button>
+
+        <div className="flex flex-col mt-16 space-y-6 text-gray-900 font-medium px-6">
+          <Link href="/product" className="text-lg hover:text-gray-500 transition" onClick={() => setMenuOpen(false)}>
+            {t("product", "navbar")}
+          </Link>
+          <Link href="/about" className="text-lg hover:text-gray-500 transition" onClick={() => setMenuOpen(false)}>
+            {t("about", "navbar")}
+          </Link>
+          <Link href="/contacts" className="text-lg hover:text-gray-500 transition" onClick={() => setMenuOpen(false)}>
+            {t("contact", "navbar")}
+          </Link>
         </div>
       </div>
     </nav>
