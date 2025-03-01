@@ -12,11 +12,13 @@ import Blog from "@/components/Blog";
 export default function HomePage() {
   const { t } = useLanguage();
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // ✅ Loading state
 
   // ✅ ตรวจสอบขนาดหน้าจอ
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768); // ✅ ถ้าหน้าจอ < 768px ถือว่าเป็น Mobile
+      setIsMobile(window.innerWidth < 768);
+      setIsLoading(true); // ✅ เปิด Loading ทันทีที่เปลี่ยนขนาดหน้าจอ
     };
 
     checkScreenSize();
@@ -27,8 +29,8 @@ export default function HomePage() {
 
   // ✅ รูปภาพสำหรับ Mobile และ PC
   const slides = isMobile
-    ? ["/images/slides/orange_mobile.png", "/images/slides/orange_mobile.png", "/images/slides/orange_mobile.png"]
-    : ["/images/slides/Or.png", "/images/slides/Or.png", "/images/slides/Or.png"];
+    ? ["/images/slides/coverm1.jpg", "/images/slides/coverm2.jpg", "/images/slides/coverm3.jpg"]
+    : ["/images/slides/cover.jpg"];
   
   const products = [
     { id: 1, name: "Product A", price: "$19.99", image: "./images/slides/4.jpg" },
@@ -45,11 +47,24 @@ export default function HomePage() {
         slidesPerView={1}
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000 }}
-        className="w-full h-screen overflow-hidden"
+        className="w-full h-[500px] max-h-[600px] min-h-[400px] overflow-hidden"
       >
         {slides.map((image, index) => (
-          <SwiperSlide key={index}>
-            <img src={image} alt={`Slide ${index + 1}`} className="w-full h-full object-cover" />
+          <SwiperSlide key={index} className="relative flex justify-center items-center">
+            {/* ✅ แสดง Loading Spinner ถ้า isLoading เป็น true */}
+            {isLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-100">
+                <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+              </div>
+            )}
+
+            {/* ✅ เมื่อรูปโหลดเสร็จ จะปิด Loading */}
+            <img
+              src={image}
+              alt={`Slide ${index + 1}`}
+              className="w-full h-full object-cover object-bottom"
+              onLoad={() => setIsLoading(false)} // ✅ ปิด Loading เมื่อรูปโหลดเสร็จ
+            />
           </SwiperSlide>
         ))}
       </Swiper>
