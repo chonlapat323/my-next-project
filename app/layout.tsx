@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <LanguageProvider>
           <Navbar />
-          <main className="pt-[64px] md:pt-[72px] container mx-auto">{children}</main>
+          <main className="pt-[64px] md:pt-[64px] container mx-auto">{children}</main>
           <Footer />
         </LanguageProvider>
       </body>
